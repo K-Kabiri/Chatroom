@@ -5,8 +5,8 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client1 {
-    static final String username="Client1";
-    static final int ID=1;
+    static final String username = "Client1";
+    static final int ID = 1;
 
     public static void main(String[] args) throws IOException {
 
@@ -15,19 +15,22 @@ public class Client1 {
         //-----------------------------------------------------------------
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         //-----------------------------------------------------------------
-        ClientThread clientThread=new ClientThread(clientSocket);
+        ClientThread clientThread = new ClientThread(clientSocket);
         new Thread(clientThread).start();
         //-----------------------------------------------------------------
-        out.println(username+ " has join chatroom.");
+        out.println(username + ": has join chatroom.");
 
         Scanner sc = new Scanner(System.in);
         String message = "";
-        do {
+        while (true) {
             message = sc.nextLine();
-            out.println(username+" : "+message);
+            if (message.equals("Exit")) {
+                out.println("Exit");
+                break;
+            }
+            out.println(username + " : " + message);
+        }
 
-        } while (!message.equals("Exit"));
-        out.println("Exit");
         //-----------------------------------------------------------------
         out.close();
         clientSocket.close();
