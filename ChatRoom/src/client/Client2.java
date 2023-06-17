@@ -14,15 +14,22 @@ public class Client2 {
         System.out.println("Client connected to the server...");
         //-----------------------------------------------------------------
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-        out.println(username+ " has join chatroom.");
         //-----------------------------------------------------------------
+        ClientThread clientThread = new ClientThread(clientSocket);
+        new Thread(clientThread).start();
+        //-----------------------------------------------------------------
+        out.println(username + ": has join chatroom.");
+
         Scanner sc = new Scanner(System.in);
         String message = "";
-        do {
+        while (true) {
             message = sc.nextLine();
-            out.println(username+" : "+message);
-
-        } while (!message.equals("Exit"));
+            if (message.equals("Exit")) {
+                out.println("Exit");
+                break;
+            }
+            out.println(username + " : " + message);
+        }
         //-----------------------------------------------------------------
         out.close();
         clientSocket.close();
