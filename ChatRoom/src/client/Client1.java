@@ -7,11 +7,11 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client1 {
-    static final User user = new User("Client1" , 1);
+    static final User user = new User("Client1", 1);
 
     public static void main(String[] args) throws IOException {
 
-        Socket clientSocket = new Socket("127.0.0.1", 7000);
+        Socket clientSocket = new Socket("127.0.0.1", 8080);
         System.out.println("You joined the chat...");
         //-----------------------------------------------------------------
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -29,7 +29,13 @@ public class Client1 {
                 out.println("Exit");
                 break;
             }
-            out.println(user.getUserID() + ":" + user.getUsername()  + ": " + message);
+            else if (message.equals("Ping"))
+            {
+                long firstTime=System.currentTimeMillis();
+                message="Ping-"+firstTime;
+            }
+            out.println(user.getUserID() + ":" + user.getUsername() + ": " + message);
+
         }
         //-----------------------------------------------------------------
         out.close();
