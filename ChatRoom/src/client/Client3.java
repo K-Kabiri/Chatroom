@@ -13,7 +13,7 @@ public class Client3 {
     public static void main(String[] args) throws IOException {
 
         Socket clientSocket = new Socket("127.0.0.1", 7000);
-        System.out.println("Client connected to the server...");
+        System.out.println("You joined the chat...");
         //-----------------------------------------------------------------
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         //-----------------------------------------------------------------
@@ -30,7 +30,7 @@ public class Client3 {
                 out.println("Exit");
                 break;
             }
-            out.println(user.getUserID() + ":" + user.getUsername() + ":" + message);
+            out.println(user.getUserID() + ":" + user.getUsername() + ": " + message);
         }
         //-----------------------------------------------------------------
         out.close();
