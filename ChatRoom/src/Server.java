@@ -15,7 +15,7 @@ public class Server {
         HashMap<Socket, String> nameOfClientsList = new HashMap<>();
         HashMap<String, Socket> clientsList = new HashMap<>();
         ArrayList<Socket> clients = new ArrayList<>();
-        ServerSocket serversocket = new ServerSocket(7000);
+        ServerSocket serversocket = new ServerSocket(8080);
         System.out.println("Waiting for users...");
         while (true) {
             Socket clientSocket = serversocket.accept();
@@ -29,16 +29,15 @@ public class Server {
                         String outputString = input.readLine();
                         String[] messageString = outputString.split(":", 3);
                         String[] messageString2=messageString[2].split("-",3);
-                        addMessageToDatabase(Integer.parseInt(messageString[0]), messageString[1], messageString[2]);
                         if (outputString.equals("Exit")) {
                             throw new SocketException();
                         }
-                        if (Objects.equals(messageString2[0], "PV"))
+                        if (Objects.equals(messageString2[0], " PV"))
                         {
                                 Socket receiver=findClient(clientsList,messageString2[1]);
                                 System.out.println(outputString);
+                                addMessageToPVDatabase(messageString[1] , messageString2[1] , Integer.parseInt(messageString[0]), messageString[1] , messageString2 [2]);
                                 showMessagePV(receiver,messageString[1]+"-"+messageString2[0]+" : "+messageString2[2]);
-
                         }
                         else {
                             if (!nameOfClientsList.containsKey(clientSocket)) {
@@ -50,6 +49,7 @@ public class Server {
                                 System.out.println(outputString);
                                 showMessageToAllClients(clients, clientSocket, messageString[1] + " : " + messageString[2]);
                             }
+                            addMessageToDatabase(Integer.parseInt(messageString[0]), messageString[1], messageString[2]);
                         }
                     }
                 } catch (SocketException e) {
@@ -121,5 +121,27 @@ public class Server {
             throw new RuntimeException(ie);
         }
     }
+    private static void addMessageToPVDatabase(String client1 , String client2 , int userID , String username, String message) throws SQLException, ClassNotFoundException {
+        Message newMessage = new Message(username, userID, message);
+        System.out.println(1);
+        if((Objects.equals(client1, "Client1") && Objects.equals(client2, "Client2")) ||(Objects.equals(client1, "Client2") && Objects.equals(client2, "Client1")) ){
+            newMessage.insertMessageIntoClient1_Client2();
+        }
+        else if((client1 == "Client1" && client2 == "Client3") ||(client1 == "Client3" && client2 == "Client1") ){
+            newMessage.insertMessageIntoClient1_Client3();
+        }
+        else if((client1 == "Client1" && client2 == "Client4") ||(client1 == "Client4" && client2 == "Client1") ){
+            newMessage.insertMessageIntoClient1_Client4();
+        }
+        else if((client1 == "Client2" && client2 == "Client3") ||(client1 == "Client3" && client2 == "Client2") ){
+            newMessage.insertMessageIntoClient2_Client3();
+        }
+        else if((client1 == "Client2" && client2 == "Client4") ||(client1 == "Client4" && client2 == "Client2") ){
+            newMessage.insertMessageIntoClient2_Client4();
+        }
+        else if((client1 == "Client3" && client2 == "Client4") ||(client1 == "Client4" && client2 == "Client3") ){
+            newMessage.insertMessageIntoClient3_Client4();
+        }
+        System.out.println(2);
+    }
 }
-
