@@ -6,9 +6,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Message {
-    public void insertMessage(int userID ,String username) throws SQLException, ClassNotFoundException {
+    private String username;
+    private int userID;
+    private String message;
+    private static int messageID = 1;
+
+    public Message(String username , int userID, String message) {
+        this.userID = userID;
+        this.username = username;
+        this.message = message;
+    }
+
+    public void insertMessage() throws SQLException, ClassNotFoundException {
         MySQLConnection mySQLConnection = new MySQLConnection();
-        String sql = String.format("INSERT INTO `users` (userID, username) VALUES (%s , '%s')" , userID , username);
+        String sql = String.format("INSERT INTO `messages` (`messageID`, `userID`, `username`, `message`) VALUES (%s, %s,'%s' ,'%s')" , messageID++ , userID , username , message );
         mySQLConnection.executeSQL(sql);
     }
     public ResultSet selectMessage(int userID ,String username) throws SQLException, ClassNotFoundException {
