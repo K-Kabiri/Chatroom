@@ -6,11 +6,11 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class ClientThread implements Runnable{
+public class ClientController implements Runnable{
     private Socket socket;
     private BufferedReader in;
 
-    public ClientThread(Socket socket) throws IOException {
+    public ClientController(Socket socket) throws IOException {
         this.socket = socket;
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }

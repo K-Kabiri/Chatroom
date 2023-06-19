@@ -1,12 +1,13 @@
 package client;
 
+import models.User;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class Client1 {
-    static final String username = "Client1";
-    static final int ID = 1;
+    static final User user = new User("Client1" , 1);
 
     public static void main(String[] args) throws IOException {
 
@@ -15,22 +16,21 @@ public class Client1 {
         //-----------------------------------------------------------------
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         //-----------------------------------------------------------------
-        ClientThread clientThread = new ClientThread(clientSocket);
-        new Thread(clientThread).start();
+        ClientController clientController = new ClientController(clientSocket);
+        new Thread(clientController).start();
         //-----------------------------------------------------------------
-        out.println(username + ": has join chatroom.");
+        out.println(user.getUserID() + ":" + user.getUsername() + ": has join chatroom.");
 
         Scanner sc = new Scanner(System.in);
-        String message = "";
+        String message;
         while (true) {
             message = sc.nextLine();
             if (message.equals("Exit")) {
                 out.println("Exit");
                 break;
             }
-            out.println(username + " : " + message);
+            out.println(user.getUserID() + ":" + user.getUsername()  + ":" + message);
         }
-
         //-----------------------------------------------------------------
         out.close();
         clientSocket.close();

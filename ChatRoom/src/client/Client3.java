@@ -1,13 +1,14 @@
 package client;
 
+import models.User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class Client3 {
-    static final String username = "Client3";
-    static final int ID = 3;
+    static final User user = new User("Client3" , 3);
 
     public static void main(String[] args) throws IOException {
 
@@ -16,10 +17,10 @@ public class Client3 {
         //-----------------------------------------------------------------
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         //-----------------------------------------------------------------
-        ClientThread clientThread = new ClientThread(clientSocket);
-        new Thread(clientThread).start();
+        ClientController clientController = new ClientController(clientSocket);
+        new Thread(clientController).start();
         //-----------------------------------------------------------------
-        out.println(username + ": has join chatroom.");
+        out.println(user.getUserID() + ":" + user.getUsername() + ": has join chatroom.");
 
         Scanner sc = new Scanner(System.in);
         String message = "";
@@ -29,9 +30,8 @@ public class Client3 {
                 out.println("Exit");
                 break;
             }
-            out.println(username + " : " + message);
+            out.println(user.getUserID() + ":" + user.getUsername() + ":" + message);
         }
-
         //-----------------------------------------------------------------
         out.close();
         clientSocket.close();
