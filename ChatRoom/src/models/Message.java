@@ -22,9 +22,9 @@ public class Message {
         String sql = String.format("INSERT INTO `messages` (`messageID`, `userID`, `username`, `message`) VALUES (%s, %s,'%s' ,'%s')" , messageID++ , userID , username , message );
         mySQLConnection.executeSQL(sql);
     }
-    public ResultSet selectMessage(int userID ,String username) throws SQLException, ClassNotFoundException {
+    public static ResultSet selectMessage() throws SQLException, ClassNotFoundException {
         MySQLConnection mySQLConnection = new MySQLConnection();
-        String query = String.format("SELECT username , message FROM `messages`");
+        String query = String.format("SELECT username , message FROM `messages` ORDER BY messageID ASC");
         return mySQLConnection.executeQuery(query);
     }
 }

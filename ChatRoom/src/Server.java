@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class Server {
         while (true) {
             Socket clientSocket = serversocket.accept();
             clients.add(clientSocket);
+            showAllMessagesToNewUser(clientSocket);
             Thread newThread = new Thread(() ->
             {
                 try {
@@ -102,6 +104,21 @@ public class Server {
             System.out.println(se);
         } catch (ClassNotFoundException cfe) {
             System.out.println(cfe);
+        }
+    }
+    private static void showAllMessagesToNewUser(Socket client){
+        try {
+            ResultSet messages = Message.selectMessage();
+            while(messages.next()){
+                PrintWriter printWriter = new PrintWriter(client.getOutputStream(), true);
+                printWriter.println(messages.getString("username") + " : " + messages.getString("message"));
+            }
+        } catch (SQLException se) {
+            throw new RuntimeException(se);
+        } catch (ClassNotFoundException cfe) {
+            throw new RuntimeException(cfe);
+        } catch (IOException ie) {
+            throw new RuntimeException(ie);
         }
     }
 }
