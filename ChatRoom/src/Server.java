@@ -15,7 +15,7 @@ public class Server {
         HashMap<Socket, String> nameOfClientsList = new HashMap<>();
         HashMap<String, Socket> clientsList = new HashMap<>();
         ArrayList<Socket> clients = new ArrayList<>();
-        ServerSocket serversocket = new ServerSocket(8080);
+        ServerSocket serversocket = new ServerSocket(7000);
         System.out.println("Waiting for users...");
         while (true) {
             Socket clientSocket = serversocket.accept();
@@ -38,6 +38,14 @@ public class Server {
                                 System.out.println(outputString);
                                 addMessageToPVDatabase(messageString[1] , messageString2[1] , Integer.parseInt(messageString[0]), messageString[1] , messageString2 [2]);
                                 showMessagePV(receiver,messageString[1]+"-"+messageString2[0]+" : "+messageString2[2]);
+                        }
+                        else if (messageString2[0].equals(" Ping"))
+                        {
+                            PrintWriter printWriter;
+                            printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
+                            long secondTime=System.currentTimeMillis();
+                            printWriter.println("Connected ("+(secondTime-Long.parseLong(messageString2[1]))+")");
+
                         }
                         else {
                             if (!nameOfClientsList.containsKey(clientSocket)) {
