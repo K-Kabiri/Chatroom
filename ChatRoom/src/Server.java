@@ -15,7 +15,7 @@ public class Server {
         HashMap<Socket, String> nameOfClientsList = new HashMap<>();
         HashMap<String, Socket> clientsList = new HashMap<>();
         ArrayList<Socket> clients = new ArrayList<>();
-        ServerSocket serversocket = new ServerSocket(7000);
+        ServerSocket serversocket = new ServerSocket(8080);
         System.out.println("Waiting for users...");
         while (true) {
             Socket clientSocket = serversocket.accept();
@@ -131,25 +131,24 @@ public class Server {
     }
     private static void addMessageToPVDatabase(String client1 , String client2 , int userID , String username, String message) throws SQLException, ClassNotFoundException {
         Message newMessage = new Message(username, userID, message);
-        System.out.println(1);
+
         if((Objects.equals(client1, "Client1") && Objects.equals(client2, "Client2")) ||(Objects.equals(client1, "Client2") && Objects.equals(client2, "Client1")) ){
             newMessage.insertMessageIntoClient1_Client2();
         }
-        else if((client1 == "Client1" && client2 == "Client3") ||(client1 == "Client3" && client2 == "Client1") ){
+        else if((Objects.equals(client1, "Client1") && Objects.equals(client2, "Client3")) ||(Objects.equals(client1, "Client3") && Objects.equals(client2, "Client1")) ){
             newMessage.insertMessageIntoClient1_Client3();
         }
-        else if((client1 == "Client1" && client2 == "Client4") ||(client1 == "Client4" && client2 == "Client1") ){
+        else if((Objects.equals(client1, "Client1") && Objects.equals(client2, "Client4")) ||(Objects.equals(client1, "Client4") && Objects.equals(client2, "Client1")) ){
             newMessage.insertMessageIntoClient1_Client4();
         }
-        else if((client1 == "Client2" && client2 == "Client3") ||(client1 == "Client3" && client2 == "Client2") ){
+        else if((Objects.equals(client1, "Client2") && Objects.equals(client2, "Client3")) ||(Objects.equals(client1, "Client3") && Objects.equals(client2, "Client2")) ){
             newMessage.insertMessageIntoClient2_Client3();
         }
-        else if((client1 == "Client2" && client2 == "Client4") ||(client1 == "Client4" && client2 == "Client2") ){
+        else if((Objects.equals(client1, "Client2") && Objects.equals(client2, "Client4")) ||(Objects.equals(client1, "Client4") && Objects.equals(client2, "Client2")) ){
             newMessage.insertMessageIntoClient2_Client4();
         }
-        else if((client1 == "Client3" && client2 == "Client4") ||(client1 == "Client4" && client2 == "Client3") ){
+        else if((Objects.equals(client1, "Client3") && Objects.equals(client2, "Client4")) ||(Objects.equals(client1, "Client4") && Objects.equals(client2, "Client3")) ){
             newMessage.insertMessageIntoClient3_Client4();
         }
-        System.out.println(2);
     }
 }
