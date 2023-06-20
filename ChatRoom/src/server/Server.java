@@ -1,3 +1,5 @@
+package server;
+
 import models.Message;
 
 import java.io.*;
