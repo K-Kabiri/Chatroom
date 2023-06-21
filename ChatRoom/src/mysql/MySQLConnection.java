@@ -1,4 +1,4 @@
-package controller;
+package mysql;
 
 import java.sql.*;
 
